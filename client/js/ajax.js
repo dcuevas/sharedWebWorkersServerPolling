@@ -2,6 +2,7 @@ var ajax = function(url, callback, type) {
     if (callback == null) {
         callback = function() {};
     }
+
     if (type == null) {
         //default to a GET request
         type = 'GET';

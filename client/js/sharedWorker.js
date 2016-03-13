@@ -1,8 +1,5 @@
-// This is the code for: 'sharedWorker1.js' file
-// Shared workers that handle the connections and Welcome each new script
 importScripts('ajax.js');
 
-var counter = 0; // count active connections
 var isPollingActive = false;
 var portsSubscribed = [];
 
@@ -12,7 +9,7 @@ self.addEventListener("connect", function(e) {
 
     function notifySubscribers(dataMessage) {
         portsSubscribed.forEach(function (subscriptorPort) {
-            console.log('Notifiying to subs: ' + subscriptorPort);
+            console.log('Notifiying to subscribers: ' + subscriptorPort);
             subscriptorPort.postMessage(dataMessage);
         });
     };
@@ -36,15 +33,13 @@ self.addEventListener("connect", function(e) {
 
     port.start();
 
-
     port.addEventListener("message", function(e) {
         var currentPort = this;
         var data = e.data;
 
         switch (data.command) {
-            // Tab closed, remove port
             case 'closing':
-                console.log('Closing');
+                console.log('Closing port');
                 portsSubscribed.splice(portsSubscribed.indexOf(currentPort), 1);
                 break;
         }

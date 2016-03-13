@@ -25,7 +25,7 @@
 
         // Tell the SharedWorker we're closing
         window.onbeforeunload = function() {
-            worker.port.postMessage( {command:'closing'} );
+            worker.port.postMessage( {command:  'closing'} );
         };
 
         worker.port.addEventListener("message", function(e) {
@@ -37,11 +37,9 @@
                 var messages = JSON.parse(e.data);
                 $('#result').json2html(messages.messages, transform);
             }
-
         }, false);
 
         worker.port.start();
-
     </script>
 </body>
 </html>

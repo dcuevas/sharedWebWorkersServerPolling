@@ -9,4 +9,3 @@ Run ```node server/app.js``` in order to start web server at [localhost:3000](ht
 
 ## How it works?
 You can open more than one tab and the shared web worker will orquestrate infinite loop call every second and send the respond message to each of the tabs sharing the web worker.
-
