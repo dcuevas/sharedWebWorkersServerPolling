@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Shared Web Workers: Infinite Server Polling</title>
+    <link type="text/css" rel="stylesheet" href="css/styles.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script type="text/javascript" src="vendor/json2html.js"></script>
+    <script type="text/javascript" src="vendor/jquery.json2html.js"></script>
+    <script type="text/javascript" src="js/ajax.js"></script>
+</head>
+<body>
+    <h2>Shared Web Workers: show server response for every call.</h2>
+
+    <div id="result"></div>
+
+    <script>
+        var transform = [ {"tag":"li","html":"${key}: ${description}"} ];
+
+        var worker = new SharedWorker('js/sharedWorker.js');
+
+        worker.onerror = function(error) {
+            console.log('Error: ', error);
+        };
+
+        // Tell the SharedWorker we're closing
+        window.onbeforeunload = function() {
+            worker.port.postMessage( {command:'closing'} );
+        };
+
+        worker.port.addEventListener("message", function(e) {
+            if (e.data === 'Already polling') {
+                console.log('Already polling');
+            } else if (e.data.indexOf('Remains: ') > -1) {
+                console.log(e.data);
+            } else {
+                var messages = JSON.parse(e.data);
+                $('#result').json2html(messages.messages, transform);
+            }
+
+        }, false);
+
+        worker.port.start();
+
+    </script>
+</body>
+</html>
