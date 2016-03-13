@@ -9,3 +9,6 @@ Run ```node server/app.js``` in order to start web server at [localhost:3000](ht
 
 ## How it works?
 You can open more than one tab and the shared web worker will orquestrate infinite loop call every second and send the respond message to each of the tabs sharing the web worker.
+
+## Debug
+Shared web worker ```console.log``` executions are not displayed in the page console. In order to see worker console you have to go ```chrome://inspect/#workers``` and click on ```inspect```.
